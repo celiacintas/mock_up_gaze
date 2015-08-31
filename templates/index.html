@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="jumbotron">
+        <h1>WebCam Gaze Tracker Analysis</h1>
+</div>
+<div id="heatmapContainerWrapper" style="width:640px; height:480px; margin-left:auto; margin-right:auto;">
+    <div id="heatmapContainer" width="640" height="480" align="middle">
+        <canvas id="img_mjpeg" width="640" height="480" align="middle">
+        </canvas>
+    </div>
+    <p>
+        <a class="btn btn-lg btn-success" id="press" role="button" data-toggle="modal" data-target="#myModal">Get Summary</a>
+    </p>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade bs-example-modal-lg" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog  modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel"> Porcentaje de tiempo estimado de mirada en sectores</h4>
+      </div>
+      <div class="modal-body" style="text-align: center; height: 1000px; ">
+        <div id="myChart"  style="margin-left: auto; margin-right: auto; width: 500px; display: block; height: 400px;">
+        </div>
+        <canvas id="myScreen" width="640" height="480" align="middle">
+        </canvas>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="save_changes">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+
+{% block scripts %}
+    <script src="/static/eventemitter2.min.js"></script>
+    <script src="/static/heatmap.js"></script>
+    <script src="/static/mjpegcanvas.min.js"></script>
+    <script src="/static/jquery.js"></script>
+    <script src="/static/canvasjs.js"></script>
+    <script src="/static/alasql.min.js"></script>
+    <script src="/static/underscore-min.js"></script>
+    <script src="/static/gazetracker.js"></script>
+    <script type="text/javascript"></script>
+    <script>
+
+    $(function (){
+        GazeTracker.createHeatmap();
+        $('#press').on('click', GazeTracker.drawResults);
+        $('#save_changes').on('click', GazeTracker.saveData);
+    
+    });
+
+   </script>   
+{% endblock scripts %}
